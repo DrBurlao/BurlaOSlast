@@ -1,7 +1,0 @@
-shell.allow_disk_startup=false
-shell.allow_startup=false
-bios.use_multishell=false
-edit.autocomplete=false
-lua.autocomplete=false
-list.show_hidden=false
-shell.autocomplete=false
