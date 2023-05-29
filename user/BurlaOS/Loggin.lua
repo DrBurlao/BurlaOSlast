@@ -23,7 +23,7 @@ local function showAdminAccountCreationForm()
   term.setBackgroundColor(colors.black)
   term.setTextColor(colors.white)
 
-  shell.run("user/.admin/accounts.lua")
+  shell.run("user/admin/accounts.lua")
   os.queueEvent("terminate")
 end
 
@@ -40,7 +40,7 @@ local function showLoginForm()
   centerText(11, "Password:")
   local password = centerTextInput(13, "*")
 
-  local adminPath = "user/.admin/admin.txt"
+  local adminPath = "user/admin/admin.txt"
   local file = fs.open(adminPath, "r")
   if file then
     local storedUsername = file.readLine()
@@ -79,7 +79,7 @@ local function handleKeyPress(event)
 end
 
 local function createAdminIfNotExists()
-  local adminPath = "user/.admin/admin.txt"
+  local adminPath = "user/admin/admin.txt"
   if not fs.exists(adminPath) then
     showAdminAccountCreationForm()
   end
