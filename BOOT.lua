@@ -1,4 +1,3 @@
--- Adaptar resolución y mostrar barra de progreso durante la espera de 10 segundos
 local espera = 10 -- tiempo en segundos
 local programaBg1 = "/user/BurlaOS/Boot.lua" -- ruta al primer programa a ejecutar en segundo plano
 local programaBg2 = "/BurlaCMD.lua" -- ruta al segundo programa a ejecutar en segundo plano
@@ -37,7 +36,7 @@ function mostrarBarraProgreso(porcentaje)
   local barPaddingY = math.floor(screenHeight * 0.4)
   local barFill = math.floor(barWidth * porcentaje / 100)
 
-  term.setBackgroundColor(colors.green)
+  term.setBackgroundColor(colors.black)
   term.clear()
 
   for i = 1, barHeight do
@@ -46,11 +45,11 @@ function mostrarBarraProgreso(porcentaje)
   end
 
   term.setCursorPos(barPaddingX + 1, barPaddingY + 1)
-  term.setBackgroundColor(colors.red)
+  term.setBackgroundColor(colors.cyan)
   term.write((" "):rep(barFill))
 
   term.setCursorPos(barPaddingX + math.floor((barWidth - 4) / 2), barPaddingY + math.floor((barHeight - 2) / 2))
-  term.setBackgroundColor(colors.red)
+  term.setBackgroundColor(colors.black)
   term.setTextColor(colors.white)
   term.write(string.format("%.1f", porcentaje) .. "%")
 end
@@ -58,15 +57,15 @@ end
 -- Función para mostrar barras verticales de colores aleatorios
 function mostrarBarrasVerticales()
   local screenWidth, screenHeight = term.getSize()
-  local numBarras = 10
-  local barWidth = math.floor(screenWidth * 0.2)
-  local barHeight = math.floor(screenHeight * 0.2)
-  local barPaddingX = math.floor((screenWidth - barWidth) / 2)
-  local barPaddingY = math.floor((screenHeight - barHeight) / 2)
+  local numBarras = 20
+  local barWidth = math.floor(screenWidth * 0.05)
+  local barHeight = math.floor(screenHeight * 0.3)
+  local barPaddingX = math.floor((screenWidth - (barWidth * numBarras)) / (numBarras + 1))
+  local barPaddingY = math.floor(screenHeight - barHeight)
 
   for i = 1, numBarras do
-    local posX = math.random(barPaddingX, barPaddingX + barWidth - 1)
-    local posY = math.random(barPaddingY, barPaddingY + barHeight - 1)
+    local posX = barPaddingX + (i - 1) * (barPaddingX + barWidth)
+    local posY = barPaddingY
     local barColor = math.random(1, 15)
     local frameColor = colors.black
 
@@ -115,12 +114,13 @@ print("Adaptando resolución antes de la espera de 10 segundos...")
 local screenWidth, screenHeight = obtenerResolucion()
 ajustarResolucion(screenWidth, screenHeight)
 print("Resolución adaptada. Esperando...")
+local tiempoEspera = espera / 100 -- Divide el tiempo de espera total entre 100 para obtener incrementos de 1 en 1
 parallel.waitForAny(mostrarLoading, function()
   for i = 1, espera do
     local porcentaje = (i / espera) * 100
     mostrarBarraProgreso(porcentaje)
     mostrarBarrasVerticales()
-    os.sleep(1)
+    os.sleep(tiempoEspera)
   end
 end)
 
