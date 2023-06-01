@@ -29,7 +29,7 @@ local function createAdminAccount()
   local adminUsername = centerTextInput(9, "")
 
   -- Save the admin username to the admin.txt file
-  local adminPath = "/user/.admin/admin.txt"
+  local adminPath = "/user/admin/admin.txt"
   local file = fs.open(adminPath, "w")
   if file then
     file.writeLine(adminUsername)
@@ -46,7 +46,7 @@ local function createAdminAccount()
 end
 
 local function validateAdminAccount()
-  local adminPath = "/user/.admin/admin.txt"
+  local adminPath = "/user/admin/admin.txt"
   if fs.exists(adminPath) then
     local file = fs.open(adminPath, "r")
     if file then
@@ -76,7 +76,7 @@ local function showAccountCreationForm()
   fs.makeDir(userFolderPath)
 
   -- Save user account to a file
-  local userFilePath = "/user/.admin/" .. username .. ".txt"
+  local userFilePath = "/user/admin/" .. username .. ".txt"
   local file = fs.open(userFilePath, "w")
   if file then
     file.writeLine(username)
@@ -108,7 +108,7 @@ local function showAccountDeletionForm()
   fs.delete(userFolderPath)
 
   -- Delete user account file
-  local userFilePath = "/user/.admin/" .. username .. ".txt"
+  local userFilePath = "/user/admin/" .. username .. ".txt"
   fs.delete(userFilePath)
 
   clearScreen()
@@ -130,7 +130,7 @@ local function showChangePasswordForm()
   local username = centerTextInput(9, "")
 
   -- Check if user exists
-  local userFilePath = "/user/.admin/" .. username .. ".txt"
+  local userFilePath = "/user/admin/" .. username .. ".txt"
   if not fs.exists(userFilePath) then
     clearScreen()
     term.setBackgroundColor(colors.black)
